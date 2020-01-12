@@ -43,7 +43,7 @@ export default class App extends Component {
 
   addBook() {
     axios
-      .post("http://localhost:3000/users", this.state.newBook)
+      .post("https://jsonplaceholder.typicode.com/users", this.state.newBook)
       .then(response => {
         console.log(response.data);
         let { users } = this.state;
@@ -60,16 +60,18 @@ export default class App extends Component {
       });
   }
   componentWillMount() {
-    axios.get("http://localhost:3000/users").then(response => {
+    axios.get("https://jsonplaceholder.typicode.com/users").then(response => {
       this.setState({
         users: response.data
       });
     });
   }
   delete(id) {
-    axios.delete("http://localhost:3000/users/" + id).then(response => {
-      this.refreshData();
-    });
+    axios
+      .delete("https://jsonplaceholder.typicode.com/users/" + id)
+      .then(response => {
+        this.refreshData();
+      });
   }
   edit(id, name, email) {
     this.setState({
@@ -86,7 +88,7 @@ export default class App extends Component {
     });
   }
   refreshData() {
-    axios.get("http://localhost:3000/users").then(response => {
+    axios.get("https://jsonplaceholder.typicode.com/users").then(response => {
       this.setState({
         users: response.data
       });
@@ -120,7 +122,7 @@ export default class App extends Component {
   update() {
     let { id, name, email } = this.state.editUser;
     axios
-      .put("http://localhost:3000/users/" + id, { name, email })
+      .put("https://jsonplaceholder.typicode.com/users/" + id, { name, email })
       .then(response => {
         this.refreshData();
         this.setState({
@@ -162,6 +164,13 @@ export default class App extends Component {
     return (
       <div className="App">
         <h1>List of Users</h1>
+        <p>
+          Note: Since this is using a fake api server, unfortunately the data
+          can not be edited or deleted.Since its not my server the DELETE and
+          PUT HTTP requests are faked, and only GET and POST work. Check the
+          github code to run local my json server in order for all functions to
+          work
+        </p>
         <Button className="my-3" color="danger" onClick={this.toggleModal}>
           Add User
         </Button>
